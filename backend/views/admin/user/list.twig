@@ -1,0 +1,90 @@
+{% extends 'layouts/admin.twig' %}
+{% block content %}
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">User's list</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                <div class="row">
+                    <form>
+                    <div class="col-sm-6">
+                        <div class="dataTables_length" id="example1_length">
+                            <b>Show
+                                <select name="per_page" class="form-control input-sm pagination-select">
+                                    {% for per_page in app.params.per_pages %}
+                                    <option value="{{ per_page}}"{{ app.request.get.per_page == per_page ? 'selected' }}>
+                                        {{ per_page}}
+                                    </option>
+                                    {% endfor %}
+                                </select> entries
+                            </b>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="example1_filter" class="dataTables_filter">
+                            <label>Search:
+                                <input type="search" name="q" class="form-control input-sm" placeholder="Найти" value="{{ app.request.get.q }}">
+                            </label>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                               aria-describedby="example1_info">
+                            <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="Rendering engine: activate to sort column descending">
+                                    Id
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="Browser: activate to sort column ascending">
+                                    E-mail
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="Platform(s): activate to sort column ascending">
+                                    Username
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="Engine version: activate to sort column ascending">
+                                    Status
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                            <tr role="row" class="odd">
+                                <td class="sorting_1">{{ user.id }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.status }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
+                            Showing {{ users.from}} to {{ users.to }}
+                            of {{ users.pagination.totalCount }} entries
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                                {{ use('/yii/widgets') }}
+                                {{ link_pager_widget({ 'pagination': users.pagination }) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+{% endblock %}
